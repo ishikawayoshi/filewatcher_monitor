@@ -1,0 +1,1 @@
+insert into simple_entity(id) values (4);
