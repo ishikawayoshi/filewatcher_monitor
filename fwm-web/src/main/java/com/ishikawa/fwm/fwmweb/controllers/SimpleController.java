@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/api")
 public class SimpleController {
 
     private final SimpleEntityService simpleEntityService;
@@ -20,7 +20,7 @@ public class SimpleController {
         this.simpleEntityService = simpleEntityService;
     }
 
-    @GetMapping
+    @GetMapping("/entities")
     private ResponseEntity<List<SimpleEntity>> getAllSimpleEntities() {
         List<SimpleEntity> all = this.simpleEntityService.getAllEntities();
         return new ResponseEntity<>(all, HttpStatus.OK);

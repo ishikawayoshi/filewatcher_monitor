@@ -1,1 +1,1 @@
-insert into simple_entity(id) values (4);
+insert into simple_entity(id,entity_name) values (4,'Test4') ON DUPLICATE KEY UPDATE entity_name="Test";

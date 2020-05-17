@@ -16,6 +16,12 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <maven.deploy.skip>true</maven.deploy.skip>
+        <destination.platform>common</destination.platform>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <frontend-maven-plugin-version>1.6</frontend-maven-plugin-version>
+        <node-version>v12.7.0</node-version>
+        <npm-version>6.7.0</npm-version>
     </properties>
 
     <dependencies>
@@ -36,6 +42,119 @@
             </exclusions>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.github.eirslett</groupId>
+                <artifactId>frontend-maven-plugin</artifactId>
+                <version>${frontend-maven-plugin-version}</version>
+                <configuration>
+                    <workingDirectory>./ui</workingDirectory>
+                    <!--  <npmRegistryURL>${npm-registry}</npmRegistryURL>  -->
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>install node and npm for frontend</id>
+                        <goals>
+                            <goal>install-node-and-npm</goal>
+                        </goals>
+                        <phase>generate-sources</phase>
+                        <configuration>
+<!--                            <nodeDownloadRoot>${node-download-root}</nodeDownloadRoot>-->
+<!--                            <npmDownloadRoot>${npm-download-root}</npmDownloadRoot>-->
+                            <nodeVersion>${node-version}</nodeVersion>
+                            <npmVersion>${npm-version}</npmVersion>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>npm install for frontend</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <arguments>install</arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>npm run build for frontend</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <arguments>run build</arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>2.4.1</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>ui/node_modules</directory>
+                            <includes>
+                                <include>**/*</include>
+                            </includes>
+                            <followSymlinks>false</followSymlinks>
+                        </fileset>
+                        <fileset>
+                            <directory>ui/dist</directory>
+                            <includes>
+                                <include>**/*</include>
+                            </includes>
+                            <followSymlinks>false</followSymlinks>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-build.js</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>./../fwm-web/src/main/resources/static/dist/</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>ui/dist/</directory>
+                                    <includes>
+                                        <include>build.js</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-index.html</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>./../fwm-web/src/main/resources/static/</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>ui/</directory>
+                                    <includes>
+                                        <include>index.html</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 <!--    <build>-->
 <!--        <plugins>-->
