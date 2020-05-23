@@ -1,1 +1,2 @@
-insert into simple_entity(id,entity_name) values (4,'Test4') ON DUPLICATE KEY UPDATE entity_name="Test";
+insert into simple_entity(id,entity_name,creation_time,modification_time) values (3,'Test3',CURDATE(),CURDATE());
+insert into simple_entity(id,entity_name,creation_time,modification_time) values (4,'Test4',CURDATE(),CURDATE());

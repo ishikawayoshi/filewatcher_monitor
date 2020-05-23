@@ -109,6 +109,20 @@
                             </includes>
                             <followSymlinks>false</followSymlinks>
                         </fileset>
+                        <fileset>
+                            <directory>./../fwm-web/src/main/resources/static/dist</directory>
+                            <includes>
+                                <include>**/*</include>
+                            </includes>
+                            <followSymlinks>false</followSymlinks>
+                        </fileset>
+                        <fileset>
+                            <directory>./../fwm-web/src/main/resources/static/</directory>
+                            <includes>
+                                <include>index.html</include>
+                            </includes>
+                            <followSymlinks>false</followSymlinks>
+                        </fileset>
                     </filesets>
                 </configuration>
             </plugin>

@@ -6,9 +6,8 @@ import javax.persistence.*;
 
 @Entity
 @Data
-public class SimpleEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class SimpleEntity extends BaseEntity<Long>{
+
+    @Column(name = "entity_name")
     private String entity_name;
 }
